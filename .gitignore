@@ -1,0 +1,10 @@
+__pycache__/
+*.py[cod]
+/.git/
+/.tox/
+/.cache/
+.coverage
+/reports/
+/.idea/
+/env/
+/edbo_connector/config.py
