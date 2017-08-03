@@ -33,12 +33,14 @@ class EDBOWebApiMethods(object):
             speciality['specialityId']: speciality['specialityFullName'] for speciality in specialities_list
         }
 
-    def get_requests_list(self, limit=MAX_REQUESTS_COUNT, full=False) -> list:
+    def get_requests_list(self, limit=MAX_REQUESTS_COUNT, full=False, originals_added_only=False) -> list:
         """Get list of available requests
         :param limit: Path to RESTful method
         :param full: Return full data about requests (Default=False)
+        :param originals_added_only: Return requests with original documents (Default=False)
         :type limit: int
         :type full: bool
+        :type originals_added_only: bool
         :return: List of requests IDs or full data about request
         :rtype: list
         """
@@ -55,6 +57,11 @@ class EDBOWebApiMethods(object):
                 'universityId': self._university_info['universityId'],
             }
         )
+
+        if originals_added_only:
+            requests_list = [
+                request_item for request_item in requests_list if request_item['isOriginalDocumentsAdded'] is True
+            ]
 
         if not full:
             return [request_item['personRequestId'] for request_item in requests_list]
