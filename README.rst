@@ -8,25 +8,30 @@ https://github.com/ZimGreen/edbo-connector-py
 Install:
 --------
 
-```bash
-$ git clone https://github.com/ZimGreen/edbo-connector-py.git
-$ cd edbo-connector-py
-$ python setup.py install
-```
+.. code-block:: bash
+
+    $ git clone https://github.com/ZimGreen/edbo-connector-py.git
+    $ cd edbo-connector-py
+    $ python setup.py install
 
 or with pip:
 
-```bash
-$ pip install edbo_connector
-```
+.. code-block:: bash
 
-Before use rename `"config.example.py"` to `"config.py"` inside the package
+    $ pip install edbo_connector
+
+
+Before use rename **"config.example.py"** to **"config.py"** inside the package
 and add your own configs.
 
 Usage example:
 --------------
 
-```python
-```
+.. code-block:: python
+
+    from edbo_connector import EDBOWebApiClient
+    client = EDBOWebApiClient()
+    result = client.get_specialities_list()
+    print(result)
 
 For disable debug output change **ECHO_ON** variable to *False*.

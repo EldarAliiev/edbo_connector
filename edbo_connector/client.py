@@ -36,7 +36,6 @@ class EDBOWebApiClient(EDBOWebApiMethods):
         :return: Method for execution
         :rtype: function
         """
-
         if re.match(r'([0-9a-z_]+)', method) is not None:  # Check if method name is valid
             url = method.replace('_', '/')  # Transform method name into url
 

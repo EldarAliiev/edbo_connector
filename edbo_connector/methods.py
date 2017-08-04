@@ -205,15 +205,17 @@ class EDBOWebApiMethods(object):
         })
         return request_info
 
-    def get_full_requests(self, limit=MAX_REQUESTS_COUNT) -> list:
+    def get_full_requests(self, limit=MAX_REQUESTS_COUNT, originals_added_only=False) -> list:
         """Get full info about all available requests
         :param limit: Limit of requests (Default=from config file ~15000)
+        :param originals_added_only: Return requests with original documents (Default=False)
         :type limit: int
+        :type originals_added_only: bool
         :return: Array with full requests information
         :rtype: list
         """
         requests_list = []
-        requests_ids = self.get_requests_list(limit)
+        requests_ids = self.get_requests_list(limit, originals_added_only=originals_added_only)
 
         for index, request_id in enumerate(requests_ids, start=1):
             requests_list.append(self.get_full_request(request_id))
@@ -246,6 +248,22 @@ class EDBOWebApiMethods(object):
         """
         image = self._connector.execute(
             'entrance/files/regSK',
+            data={
+                'personRequestId': person_request_id,
+            },
+            json_format=False
+        )
+        return image.content, image.headers['Content-Length']
+
+    def get_person_photo(self, person_request_id: int) -> tuple:
+        """Get photo of admitter
+        :param person_request_id: ID of request
+        :type person_request_id: int
+        :return: Image data and image size
+        :rtype: tuple
+        """
+        image = self._connector.execute(
+            'entrance/files/photo',
             data={
                 'personRequestId': person_request_id,
             },

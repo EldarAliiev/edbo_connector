@@ -35,6 +35,7 @@ class EDBOWebApiConnector(object):
         self._execution_time = 0  # Initialize execution_time
         self._is_logged_in = False  # Is user logged in
         self._session = requests.Session()  # Initialize client session
+        self._session.headers.update(self.default_headers)  # Set default headers to own
         self._session.mount(
             config.EDBO_SERVER,
             HTTPAdapter(max_retries=config.CONNECTION_RETRIES)
@@ -89,31 +90,34 @@ class EDBOWebApiConnector(object):
                 },
                 headers=self.default_headers
             )  # Send authorization request
+
+            if response.status_code == 200:  # Check if authorization is successful
+                self._session_start_time = time.time()  # Catch session start time
+                self._status = response.status_code  # Catch last response status code
+                self._is_logged_in = True  # Logged in
+                self._session.headers.update({
+                    'authorization': 'Bearer ' + response.json().get('access_token', None),
+                })  # Add OAuth header
+                EDBOWebApiHelper.echo(u'Вхід успішний, вітаю %s!' % config.EDBO_USER, color='green')
+            elif response.status_code == 400:
+                EDBOWebApiHelper.echo(
+                    response.json().get('error', u'Трапилася невідома помилка!'),
+                    color='red',
+                    force_exit=True
+                )  # Incorrect login data
+            else:
+                EDBOWebApiHelper.echo(
+                    u'Не вдалося авторизуватися в системі!',
+                    color='red',
+                    force_exit=True
+                )  # Fail if login is unsuccessful
+
         except requests.exceptions.ConnectionError:
             EDBOWebApiHelper.echo(
                 u'Не вдалося встановити зв\'язок з сервером!',
                 color='red',
                 force_exit=True
             )
-
-        if response.status_code == 200:  # Check if authorization is successful
-            self._session_start_time = time.time()  # Catch session start time
-            self._status = response.status_code  # Catch last response status code
-            self._is_logged_in = True  # Logged in
-            self._access_token = response.json().get('access_token', None)  # Get access token
-            EDBOWebApiHelper.echo(u'Вхід успішний, вітаю %s!' % config.EDBO_USER, color='green')
-        elif response.status_code == 400:
-            EDBOWebApiHelper.echo(
-                response.json().get('error', u'Трапилася невідома помилка!'),
-                color='red',
-                force_exit=True
-            )  # Incorrect login data
-        else:
-            EDBOWebApiHelper.echo(
-                u'Не вдалося авторизуватися в системі!',
-                color='red',
-                force_exit=True
-            )  # Fail if login is unsuccessful
 
     def __logout(self):
         """Logout from server"""
@@ -134,18 +138,12 @@ class EDBOWebApiConnector(object):
         :returns: Result of method execution
         :rtype: dict, object
         """
-        if int(time.time() - self._session_start_time) > 60 * 15:  # Check if session is not expired (15min)
+        if int(time.time() - self._session_start_time) > config.RELOGIN_AFTER:  # Check if session is not expired (15min)
             EDBOWebApiHelper.echo(u'Сесія добігає кінця, поновлення...')
             self.__logout()  # Logout from server
-            self.__login()  # Login again if session is expired
+            self.__login()  # Login again
 
         time.sleep(config.EXECUTION_TIMEOUT)  # Wait between methods execution
-
-        headers = headers if headers is not None else {}  # Initialize headers if not exists
-        headers.update(self.default_headers)  # Add default headers
-        headers.update({
-            'authorization': 'Bearer ' + self._access_token,
-        })  # Add OAuth header
 
         while True:  # Try to execute method
             try:
@@ -154,7 +152,7 @@ class EDBOWebApiConnector(object):
                 response = self._session.post(
                     '%s/api/%s' % (self.url_prefix, url),
                     data if data is not None else {'': ''},
-                    headers=headers
+                    headers if headers is not None else {}
                 )  # Send request to RESTful server
                 execution_end = time.time()  # Catch end of execution
             except requests.exceptions.ConnectionError:  # Check if method execution is successful

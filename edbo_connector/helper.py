@@ -8,26 +8,31 @@ Email: e.aliiev@vnmu.edu.ua
 """
 
 from __future__ import print_function
+import os
 import sys
+import platform
 from edbo_connector.config import ECHO_ON
 
 
 class EDBOWebApiHelper:
-    """
-    EDBOWebApiHelper - class which implements helper methods
-    """
+    """EDBOWebApiHelper - class which implements helper methods"""
 
     @staticmethod
-    def echo(message, color=None, force_exit=False):
+    def echo(message, color=None, force_exit=False, clear=False):
         """Print information message to default output
         :param message: Information message
         :param color: Color of output (Default=None)
         :param force_exit: Color of output (Default=False)
+        :param clear: Clear screen before output (Default=False)W
         :type message: str
         :type color: str
         :type force_exit: bool
+        :type clear: bool
         """
         if ECHO_ON:
+            if clear is True:
+                EDBOWebApiHelper.clear_output()
+
             if color is not None:  # Colored output
                 color_code = {
                     'red': '0;31',
@@ -46,8 +51,7 @@ class EDBOWebApiHelper:
 
     @staticmethod
     def format_file_size(filesize, suffix='B'):
-        """
-        Humanize file size.
+        """Humanize file size.
         :param filesize: Size of file in bytes
         :param suffix: Suffix which will be added to size format
         :return: Humanized file size
@@ -56,3 +60,11 @@ class EDBOWebApiHelper:
             if abs(filesize) < 1024.0:
                 return "%3.1f%s%s" % (filesize, unit, suffix)
             filesize /= 1024.0
+
+    @staticmethod
+    def clear_output():
+        """Clear user output"""
+        if platform.system() == 'Windows':
+            os.system('cls')
+        elif platform.system() == 'Linux':
+            os.system('clear')
