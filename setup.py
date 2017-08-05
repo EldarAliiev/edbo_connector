@@ -14,7 +14,7 @@ setup(
     url='https://github.com/EldarAliiev/python-edbo-connector',
     download_url='https://github.com/EldarAliiev/python-edbo-connector/archive/master.zip',
     license=edbo_connector.__license__,
-    description='edbo_connector',
+    description='Python connector for EDBO based on python-requests',
     long_description=open('README.rst').read(),
     packages=find_packages(),
     install_requires=[
