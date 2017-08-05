@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-from edbo_connector.helper import EDBOWebApiHelper
+from ..helper import EDBOWebApiHelper
 
 
 class TestEDBOWebApiHelper(object):

@@ -9,8 +9,10 @@ setup(
     version=edbo_connector.__version__,
     author=edbo_connector.__author__,
     author_email=edbo_connector.__email__,
-    url='https://github.com/ZimGreen/edbo-connector-py',
-    download_url='https://github.com/ZimGreen/edbo-connector-py/archive/master.zip',
+    maintainer=edbo_connector.__author__,
+    maintainer_email=edbo_connector.__email__,
+    url='https://github.com/EldarAliiev/edbo_connector',
+    download_url='https://github.com/EldarAliiev/edbo_connector/archive/master.zip',
     license=edbo_connector.__license__,
     description='edbo_connector',
     long_description=open('README.rst').read(),
@@ -19,7 +21,7 @@ setup(
         'requests==2.18.3'
     ],
     classifiers=[
-        'Development Status :: 5 - Production/Stable'
+        'Development Status :: 5 - Production/Stable',
         'License :: OSI Approved :: %s License' % edbo_connector.__license__,
         'Operating System :: OS Independent',
         'Intended Audience :: Developers',

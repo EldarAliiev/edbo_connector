@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from requests import Response
-from edbo_connector.connector import EDBOWebApiConnector
+from ..connector import EDBOWebApiConnector
 
 
 class TestEDBOWebApiConnector(object):
