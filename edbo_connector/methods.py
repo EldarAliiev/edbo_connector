@@ -10,7 +10,7 @@ class EDBOWebApiMethods(object):
     pass only required and necessary parameters.
     """
 
-    def get_specialities_list(self):
+    def get_specialities_list(self) -> list:
         """Get list of available specialities
         :return: Status of last method execution
         :rtype: dict
@@ -33,7 +33,8 @@ class EDBOWebApiMethods(object):
             speciality['specialityId']: speciality['specialityFullName'] for speciality in specialities_list
         }
 
-    def get_requests_list(self, limit=MAX_REQUESTS_COUNT, full=False, originals_added_only=False) -> list:
+    def get_requests_list(self, limit: int = MAX_REQUESTS_COUNT, full: bool = False,
+                          originals_added_only: bool = False) -> list:
         """Get list of available requests
         :param limit: Path to RESTful method
         :param full: Return full data about requests (Default=False)
@@ -205,7 +206,7 @@ class EDBOWebApiMethods(object):
         })
         return request_info
 
-    def get_full_requests(self, limit=MAX_REQUESTS_COUNT, originals_added_only=False) -> list:
+    def get_full_requests(self, limit: int = MAX_REQUESTS_COUNT, originals_added_only: bool = False) -> list:
         """Get full info about all available requests
         :param limit: Limit of requests (Default=from config file ~15000)
         :param originals_added_only: Return requests with original documents (Default=False)

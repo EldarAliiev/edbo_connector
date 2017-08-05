@@ -18,7 +18,7 @@ class EDBOWebApiHelper:
     """EDBOWebApiHelper - class which implements helper methods"""
 
     @staticmethod
-    def echo(message, color=None, force_exit=False, clear=False):
+    def echo(message: str, color: str = None, force_exit: bool = False, clear: bool = False):
         """Print information message to default output
         :param message: Information message
         :param color: Color of output (Default=None)
@@ -50,7 +50,7 @@ class EDBOWebApiHelper:
                 sys.exit()
 
     @staticmethod
-    def format_file_size(filesize, suffix='B'):
+    def format_file_size(filesize: int, suffix: str ='B') -> str:
         """Humanize file size.
         :param filesize: Size of file in bytes
         :param suffix: Suffix which will be added to size format
