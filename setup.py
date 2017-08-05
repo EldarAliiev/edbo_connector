@@ -12,7 +12,7 @@ setup(
     maintainer=edbo_connector.__author__,
     maintainer_email=edbo_connector.__email__,
     url='https://github.com/EldarAliiev/python-edbo-connector',
-    download_url='https://github.com/EldarAliiev/python-edbo-connector.git',
+    download_url='https://github.com/EldarAliiev/python-edbo-connector/archive/master.zip',
     license=edbo_connector.__license__,
     description='edbo_connector',
     long_description=open('README.rst').read(),
