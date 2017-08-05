@@ -3,15 +3,15 @@ EDBO-connector
 
 Python library for work with EDBO
 
-https://github.com/ZimGreen/edbo-connector-py
+https://github.com/EldarAliiev/python-edbo-connector
 
 Install:
 --------
 
 .. code-block:: bash
 
-    $ git clone https://github.com/ZimGreen/edbo-connector-py.git
-    $ cd edbo-connector-py
+    $ git clone https://github.com/EldarAliiev/python-edbo-connector.git
+    $ cd edbo-connector
     $ python setup.py install
 
 or with pip:
