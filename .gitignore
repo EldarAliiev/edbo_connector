@@ -7,7 +7,6 @@ __pycache__/
 /reports/
 /.idea/
 /env/
-/edbo_connector/config.py
 /build/
 /dist/
 /edbo_connector.egg-info/

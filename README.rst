@@ -37,19 +37,37 @@ or with pip:
 
     $ pip install python-edbo-connector
 
-
-Before use rename **"config.example.py"** to **"config.py"** inside the package
-and add your own configs.
-
 Usage example:
 --------------
 
+Before usage set some environment variables:
+
+* EDBO_SERVER
+* EDBO_USER
+* EDBO_PASSWORD
+* EDBO_APPLICATION_KEY
+
+For example create **edbo_settings.py**:
+
 .. code-block:: python
 
+    import os
+
+    os.environ['EDBO_SERVER'] = '192.168.180.22'
+    os.environ['EDBO_USER'] = '<EDBO login>'
+    os.environ['EDBO_PASSWORD'] = '**********'
+    os.environ['EDBO_APPLICATION_KEY'] = '<Application key>'
+
+And import it to your application:
+
+.. code-block:: python
+
+    import edbo_settings
     from edbo_connector import EDBOWebApiClient
 
     client = EDBOWebApiClient()
     result = client.get_specialities_list()
     print(result)
 
-For disable debug output change **ECHO_ON** variable to *False*.
+For disable debug output change **ECHO_ON** environment variable to *False*.
+Full list of settings parameters you can find in **edbo_connector/config.py**.
