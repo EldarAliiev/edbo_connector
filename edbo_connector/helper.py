@@ -30,10 +30,13 @@ class EDBOWebApiHelper:
         :type clear: bool
         """
         if ECHO_ON:
+            # Clear output
             if clear is True:
                 EDBOWebApiHelper.clear_output()
 
-            if color is not None:  # Colored output
+            # Colored output
+            if color is not None:
+                # Get color char code
                 color_code = {
                     'red': '0;31',
                     'green': '0;32',
@@ -43,23 +46,28 @@ class EDBOWebApiHelper:
                     'white': '1;37'
                 }.get(color, '0')
                 print('\033[%sm%s\033[0m' % (color_code, message))
-            else:  # Simple output
+            else:
+                # Simple output
                 print(message)
 
-            if force_exit:  # Need force exit from program
+            # Need force exit from program
+            if force_exit:
                 sys.exit()
 
     @staticmethod
-    def format_file_size(filesize: int, suffix: str ='B') -> str:
+    def format_file_size(size_of_file: int, suffix: str = 'B') -> str:
         """Humanize file size.
-        :param filesize: Size of file in bytes
+        :param size_of_file: Size of file in bytes
         :param suffix: Suffix which will be added to size format
+        :type size_of_file: int
+        :type suffix: str
         :return: Humanized file size
+        :rtype: str
         """
         for unit in ['', 'Ki', 'Mi', 'Gi', 'Ti', 'Pi', 'Ei', 'Zi']:
-            if abs(filesize) < 1024.0:
-                return "%3.1f%s%s" % (filesize, unit, suffix)
-            filesize /= 1024.0
+            if abs(size_of_file) < 1024.0:
+                return "%3.1f%s%s" % (size_of_file, unit, suffix)
+            size_of_file /= 1024.0
 
     @staticmethod
     def clear_output():
@@ -68,3 +76,9 @@ class EDBOWebApiHelper:
             os.system('cls')
         elif platform.system() == 'Linux':
             os.system('clear')
+
+    @staticmethod
+    def save_image(image_content: bytes, save_to: str):
+        """Save image bytes ti file"""
+        with open(save_to, 'wb') as image_file:
+            image_file.write(image_content)

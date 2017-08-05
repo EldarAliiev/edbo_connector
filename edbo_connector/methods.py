@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from edbo_connector.config import MAX_REQUESTS_COUNT
+from edbo_connector.helper import EDBOWebApiHelper
 
 
 class EDBOWebApiMethods(object):
@@ -10,7 +11,7 @@ class EDBOWebApiMethods(object):
     pass only required and necessary parameters.
     """
 
-    def get_specialities_list(self) -> list:
+    def get_specialities_list(self) -> dict:
         """Get list of available specialities
         :return: Status of last method execution
         :rtype: dict
@@ -224,10 +225,12 @@ class EDBOWebApiMethods(object):
 
         return requests_list
 
-    def get_education_document_image(self, person_request_id: int) -> tuple:
+    def get_education_document_image(self, person_request_id: int, save_to: str = None) -> tuple:
         """Get image with document about education for request
         :param person_request_id: ID of request
+        :param save_to: Path to save image (Default=None)
         :type person_request_id: int
+        :type save_to: str
         :return: Image data and image size
         :rtype: tuple
         """
@@ -238,12 +241,18 @@ class EDBOWebApiMethods(object):
             },
             json_format=False
         )
+
+        if save_to is not None:
+            EDBOWebApiHelper.save_image(image.content, save_to)
+
         return image.content, image.headers['Content-Length']
 
-    def get_registration_document_image(self, person_request_id: int) -> tuple:
+    def get_registration_document_image(self, person_request_id: int, save_to: str = None) -> tuple:
         """Get image with document about registration in village for request
         :param person_request_id: ID of request
+        :param save_to: Path to save image (Default=None)
         :type person_request_id: int
+        :type save_to: str
         :return: Image data and image size
         :rtype: tuple
         """
@@ -254,12 +263,18 @@ class EDBOWebApiMethods(object):
             },
             json_format=False
         )
+
+        if save_to is not None:
+            EDBOWebApiHelper.save_image(image.content, save_to)
+
         return image.content, image.headers['Content-Length']
 
-    def get_person_photo(self, person_request_id: int) -> tuple:
+    def get_person_photo(self, person_request_id: int, save_to: str = None) -> tuple:
         """Get photo of admitter
         :param person_request_id: ID of request
+        :param save_to: Path to save image (Default=None)
         :type person_request_id: int
+        :type save_to: str
         :return: Image data and image size
         :rtype: tuple
         """
@@ -270,4 +285,8 @@ class EDBOWebApiMethods(object):
             },
             json_format=False
         )
+
+        if save_to is not None:
+            EDBOWebApiHelper.save_image(image.content, save_to)
+
         return image.content, image.headers['Content-Length']
