@@ -30,6 +30,7 @@ Usage example:
 .. code-block:: python
 
     from edbo_connector import EDBOWebApiClient
+
     client = EDBOWebApiClient()
     result = client.get_specialities_list()
     print(result)

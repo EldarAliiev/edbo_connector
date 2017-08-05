@@ -18,10 +18,18 @@ setup(
     long_description=open('README.rst').read(),
     packages=find_packages(),
     install_requires=[
-        'requests==2.18.3'
+        'requests>=2.18.3'
     ],
+    extras_require={
+        'dev': [
+            'pytest>=3',
+            'pytest-cov',
+            'tox'
+        ],
+    },
     classifiers=[
         'Development Status :: 5 - Production/Stable',
+        'Natural Language :: English',
         'License :: OSI Approved :: %s License' % edbo_connector.__license__,
         'Operating System :: OS Independent',
         'Intended Audience :: Developers',
