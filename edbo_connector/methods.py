@@ -242,10 +242,13 @@ class EDBOWebApiMethods(object):
             json_format=False
         )
 
-        if save_to is not None:
-            EDBOWebApiHelper.save_image(image.content, save_to)
+        if image is not None:
+            if save_to is not None and len(image.content) > 0:
+                EDBOWebApiHelper.save_image(image.content, save_to)
 
-        return image.content, image.headers['Content-Length']
+            return image.content, image.headers['Content-Length']
+        else:
+            return None, None
 
     def get_registration_document_image(self, person_request_id: int, save_to: str = None) -> tuple:
         """Get image with document about registration in village for request
@@ -264,10 +267,13 @@ class EDBOWebApiMethods(object):
             json_format=False
         )
 
-        if save_to is not None:
-            EDBOWebApiHelper.save_image(image.content, save_to)
+        if image is not None:
+            if save_to is not None and len(image.content) > 0:
+                EDBOWebApiHelper.save_image(image.content, save_to)
 
-        return image.content, image.headers['Content-Length']
+            return image.content, image.headers['Content-Length']
+        else:
+            return None, None
 
     def get_person_photo(self, person_request_id: int, save_to: str = None) -> tuple:
         """Get photo of admitter
@@ -286,7 +292,10 @@ class EDBOWebApiMethods(object):
             json_format=False
         )
 
-        if save_to is not None:
-            EDBOWebApiHelper.save_image(image.content, save_to)
+        if image is not None:
+            if save_to is not None and len(image.content) > 0:
+                EDBOWebApiHelper.save_image(image.content, save_to)
 
-        return image.content, image.headers['Content-Length']
+            return image.content, image.headers['Content-Length']
+        else:
+            return None, None
