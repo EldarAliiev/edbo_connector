@@ -1,6 +1,23 @@
 EDBO-connector
 ==============
 
+.. image:: https://img.shields.io/pypi/v/python-edbo-connector.svg
+    :target: https://pypi.python.org/pypi/python-edbo-connector
+
+.. image:: https://img.shields.io/pypi/l/python-edbo-connector.svg
+    :target: https://raw.githubusercontent.com/EldarAliiev/python-edbo-connector/master/LICENSE
+
+.. image:: https://img.shields.io/pypi/pyversions/python-edbo-connector.svg
+    :target: https://raw.githubusercontent.com/EldarAliiev/python-edbo-connector/master/LICENSE
+
+.. image:: https://img.shields.io/pypi/status/python-edbo-connector.svg
+    :target: https://pypi.python.org/pypi/python-edbo-connector
+
+.. image:: https://img.shields.io/github/contributors/EldarAliiev/python-edbo-connector.svg
+    :target: https://github.com/EldarAliiev/python-edbo-connector/graphs/contributors
+
+
+
 Python library for work with EDBO
 
 https://github.com/EldarAliiev/python-edbo-connector
