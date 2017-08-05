@@ -9,7 +9,7 @@ Email: e.aliiev@vnmu.edu.ua
 
 from .client import EDBOWebApiClient
 
-__name__ = 'edbo_connector'
+__name__ = 'python-edbo-connector'
 __author__ = 'Eldar Aliiev'
 __copyright__ = 'Copyright 2017, National Pirogov Memorial Medical University, Vinnytsya'
 __credits__ = ['Eldar Aliiev']

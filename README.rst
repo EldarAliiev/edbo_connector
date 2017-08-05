@@ -18,7 +18,7 @@ or with pip:
 
 .. code-block:: bash
 
-    $ pip install edbo_connector
+    $ pip install python-edbo-connector
 
 
 Before use rename **"config.example.py"** to **"config.py"** inside the package
