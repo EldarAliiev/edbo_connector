@@ -8,10 +8,10 @@ Email: e.aliiev@vnmu.edu.ua
 """
 
 import re
-import edbo_connector.config as config
-from edbo_connector.connector import EDBOWebApiConnector
-from edbo_connector.helper import EDBOWebApiHelper
-from edbo_connector.methods import EDBOWebApiMethods
+from . import config as config
+from .connector import EDBOWebApiConnector
+from .helper import EDBOWebApiHelper
+from .methods import EDBOWebApiMethods
 
 
 class EDBOWebApiClient(EDBOWebApiMethods):

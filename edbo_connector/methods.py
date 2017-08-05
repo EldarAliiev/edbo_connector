@@ -1,8 +1,8 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-from edbo_connector.config import MAX_REQUESTS_COUNT
-from edbo_connector.helper import EDBOWebApiHelper
+from .config import MAX_REQUESTS_COUNT
+from .helper import EDBOWebApiHelper
 
 
 class EDBOWebApiMethods(object):

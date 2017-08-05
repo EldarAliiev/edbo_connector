@@ -11,7 +11,7 @@ from __future__ import print_function
 import os
 import sys
 import platform
-from edbo_connector.config import ECHO_ON
+from .config import ECHO_ON
 
 
 class EDBOWebApiHelper:
