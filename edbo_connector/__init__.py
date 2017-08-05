@@ -7,7 +7,7 @@ Author: Eldar Aliiev
 Email: e.aliiev@vnmu.edu.ua
 """
 
-from edbo_connector.client import EDBOWebApiClient
+from .client import EDBOWebApiClient
 
 __name__ = 'edbo_connector'
 __author__ = 'Eldar Aliiev'
