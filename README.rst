@@ -8,7 +8,10 @@ EDBO-connector
     :target: https://raw.githubusercontent.com/EldarAliiev/python-edbo-connector/master/LICENSE
 
 .. image:: https://img.shields.io/pypi/pyversions/python-edbo-connector.svg
-    :target: https://raw.githubusercontent.com/EldarAliiev/python-edbo-connector/master/LICENSE
+    :target: https://pypi.python.org/pypi/python-edbo-connector
+
+.. image:: https://img.shields.io/pypi/wheel/python-edbo-connector.svg
+    :target: https://pypi.python.org/pypi/python-edbo-connector
 
 .. image:: https://img.shields.io/pypi/status/python-edbo-connector.svg
     :target: https://pypi.python.org/pypi/python-edbo-connector
