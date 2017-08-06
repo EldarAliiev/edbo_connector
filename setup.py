@@ -17,6 +17,7 @@ setup(
     description='Python connector for EDBO based on python-requests',
     long_description=open('README.rst').read(),
     packages=find_packages(),
+    python_requires='>=3.4',
     install_requires=[
         'requests>=2.18.3'
     ],
