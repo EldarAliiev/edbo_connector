@@ -1,4 +1,3 @@
-sudo: true
 language: python
 python:
   - "3.4"
@@ -12,7 +11,7 @@ apt:
 install: pip install tox-travis
 before_script:
   - |
-    cat > /etc/ipsec.conf <<EOF
+    sudo cat > /etc/ipsec.conf <<EOF
     # ipsec.conf - strongSwan IPsec configuration file
 
     # basic configuration
@@ -46,12 +45,12 @@ before_script:
       right=$VPN_SERVER_IP
     EOF
   - |
-    cat > /etc/ipsec.secrets <<EOF
+    sudo cat > /etc/ipsec.secrets <<EOF
     : PSK "$VPN_IPSEC_PSK"
     EOF
-  - chmod 600 /etc/ipsec.secrets
+  - sudo chmod 600 /etc/ipsec.secrets
   - |
-    cat > /etc/xl2tpd/xl2tpd.conf <<EOF
+    sudo cat > /etc/xl2tpd/xl2tpd.conf <<EOF
     [lac myvpn]
     lns = $VPN_SERVER_IP
     ppp debug = yes
@@ -59,7 +58,7 @@ before_script:
     length bit = yes
     EOF
   - |
-    cat > /etc/ppp/options.l2tpd.client <<EOF
+    sudo cat > /etc/ppp/options.l2tpd.client <<EOF
     ipcp-accept-local
     ipcp-accept-remote
     refuse-eap
@@ -75,13 +74,13 @@ before_script:
     name $VPN_USER
     password $VPN_PASSWORD
     EOF
-  - chmod 600 /etc/ppp/options.l2tpd.client
-  - mkdir -p /var/run/xl2tpd
-  - touch /var/run/xl2tpd/l2tp-control
-  - service strongswan restart
-  - service xl2tpd restart
-  - ipsec up myvpn
-  - echo "c myvpn" > /var/run/xl2tpd/l2tp-control
+  - sudo chmod 600 /etc/ppp/options.l2tpd.client
+  - sudo mkdir -p /var/run/xl2tpd
+  - sudo touch /var/run/xl2tpd/l2tp-control
+  - sudo service strongswan restart
+  - sudo service xl2tpd restart
+  - sudo ipsec up myvpn
+  - sudo echo "c myvpn" > /var/run/xl2tpd/l2tp-control
 script: tox
 after_script:
   - echo "d myvpn" > /var/run/xl2tpd/l2tp-control

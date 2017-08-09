@@ -34,7 +34,7 @@ Install:
 .. code-block:: bash
 
     $ git clone https://github.com/EldarAliiev/python-edbo-connector.git
-    $ cd edbo-connector
+    $ cd python-edbo-connector
     $ python setup.py install
 
 or with pip:

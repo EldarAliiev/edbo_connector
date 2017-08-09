@@ -23,7 +23,7 @@ class EDBOWebApiConnector(object):
     """
 
     # Build url to RESTful server
-    url_prefix = '%s/data/EDEBOWebApi' % config.EDBO_SERVER
+    url_prefix = '{0:s}/data/EDEBOWebApi'.format(config.EDBO_SERVER)
 
     def __init__(self, username: str = config.EDBO_USER, password: str = config.EDBO_PASSWORD):
         """Initialize connect and login into RESTful API server.
@@ -64,6 +64,12 @@ class EDBOWebApiConnector(object):
             self.__logout()
 
     @property
+    def internal_methods(self):
+        return [
+            'auth/logout'
+        ]
+
+    @property
     def status(self) -> int:
         """Return status of last request
         :return: Status of last method execution
@@ -93,7 +99,6 @@ class EDBOWebApiConnector(object):
 
     def __login(self, username: str = config.EDBO_USER, password: str = config.EDBO_PASSWORD):
         """Login request to RESTful API"""
-
         EDBOWebApiHelper.echo(u'Вхід в систему...')
         try:
             # Try to send authorization request
@@ -172,7 +177,7 @@ class EDBOWebApiConnector(object):
         :rtype: dict, object
         """
         # Check if session is not expired (15min)
-        if int(time.time() - self._session_start_time) > config.RELOGIN_AFTER:
+        if url not in self.internal_methods and int(time.time() - self._session_start_time) > config.RELOGIN_AFTER:
             EDBOWebApiHelper.echo(u'Сесія добігає кінця, поновлення...')
             # Logout from server
             self.__logout()
@@ -193,7 +198,7 @@ class EDBOWebApiConnector(object):
 
                 # Send request to RESTful server
                 response = self._session.post(
-                    '%s/api/%s' % (self.url_prefix, url),
+                    '{0:s}/api/{1:s}'.format(self.url_prefix, url),
                     data if data is not None else {'': ''},
                     headers if headers is not None else {}
                 )
@@ -219,7 +224,7 @@ class EDBOWebApiConnector(object):
         self._status = response.status_code
 
         EDBOWebApiHelper.echo(
-            u'Виконання методу завершено з кодом %d [%.3fs]' % (
+            u'Виконання методу завершено з кодом {0:d} [{1:.3f}s]'.format(
                 self._status,
                 self._execution_time
             ),
