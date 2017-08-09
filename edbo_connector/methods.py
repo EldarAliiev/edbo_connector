@@ -62,7 +62,9 @@ class EDBOWebApiMethods(object):
 
         if originals_added_only:
             requests_list = [
-                request_item for request_item in requests_list if request_item['isOriginalDocumentsAdded'] is True
+                request_item for request_item in requests_list if
+                request_item['isOriginalDocumentsAdded'] is True or
+                request_item['informationOriginalDocumentLocation'] is True
             ]
 
         if not full:
