@@ -25,7 +25,8 @@ setup(
         'dev': [
             'pytest>=3',
             'pytest-cov',
-            'tox'
+            'tox',
+            'fabric',
         ],
     },
     classifiers=[
