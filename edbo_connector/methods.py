@@ -223,7 +223,7 @@ class EDBOWebApiMethods(object):
 
         for index, request_id in enumerate(requests_ids, start=1):
             requests_list.append(self.get_full_request(request_id))
-            print('Завантажено %i/%i' % (index, len(requests_ids)))
+            print('Завантажено {0:d}/{1:d}'.format(index, len(requests_ids)))
 
         return requests_list
 

@@ -129,7 +129,10 @@ class EDBOWebApiConnector(object):
                     'authorization': 'Bearer ' + response.json().get('access_token', None),
                 })
 
-                EDBOWebApiHelper.echo(u'Вхід успішний, вітаю %s!' % config.EDBO_USER, color='green')
+                EDBOWebApiHelper.echo(
+                    u'Вхід успішний, вітаю {0:s}!'.format(config.EDBO_USER),
+                    color='green'
+                )
             elif response.status_code == 400:
                 # Incorrect login data
                 EDBOWebApiHelper.echo(
@@ -191,7 +194,9 @@ class EDBOWebApiConnector(object):
         # Try to execute method
         while True:
             try:
-                EDBOWebApiHelper.echo(u'Виконання методу %s...' % url)
+                EDBOWebApiHelper.echo(
+                    u'Виконання методу {0:s}...'.format(url)
+                )
 
                 # Catch start of execution
                 execution_start = time.time()

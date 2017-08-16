@@ -66,7 +66,7 @@ class EDBOWebApiHelper:
         """
         for unit in ['', 'Ki', 'Mi', 'Gi', 'Ti', 'Pi', 'Ei', 'Zi']:
             if abs(size_of_file) < 1024.0:
-                return "%3.1f%s%s" % (size_of_file, unit, suffix)
+                return "{0:.3f}{1:s}{2:s}".format(size_of_file, unit, suffix)
             size_of_file /= 1024.0
 
     @staticmethod
