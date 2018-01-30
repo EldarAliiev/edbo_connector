@@ -21,11 +21,13 @@ setup(
     install_requires=[
         'requests>=2.18.3'
     ],
+    tests_require=[
+        'pytest>=3',
+        'pytest-cov',
+        'tox',
+    ],
     extras_require={
         'dev': [
-            'pytest>=3',
-            'pytest-cov',
-            'tox',
             'fabric',
         ],
     },
