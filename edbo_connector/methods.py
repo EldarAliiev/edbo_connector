@@ -177,7 +177,6 @@ class EDBOWebApiMethods(object):
         :return: Request olympiads
         :rtype: list
         """
-        print(request_info['personId'])
         return self._connector.execute(
             'entrance/personRequest/olympiads/list',
             data={
