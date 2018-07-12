@@ -24,7 +24,7 @@ class EDBOWebApiMethods(object):
                 'menuItemCode': 'ENT_NZ4_UniversitySpecialities',
                 'pageNo': 0,
                 'pageSize': 100,
-                'parentUniversityId': self._university_info['parentId'],
+                'parentUniversityId': self._university_info['parentUniversityId'],
                 'universityCode': self._university_info['code'],
                 'universityId': self._university_info['universityId'],
             }
@@ -54,7 +54,7 @@ class EDBOWebApiMethods(object):
                 'menuItemCode': 'ENT_NZ1_Orders',
                 'pageNo': 0,
                 'pageSize': limit,
-                'parentUniversityId': self._university_info['parentId'],
+                'parentUniversityId': self._university_info['parentUniversityId'],
                 'universityCode': self._university_info['code'],
                 'universityId': self._university_info['universityId'],
             }
@@ -83,7 +83,7 @@ class EDBOWebApiMethods(object):
             'entrance/personRequest/get',
             data={
                 'governanceTypeId': self._university_info['governanceTypeId'],
-                'parentUniversityId': self._university_info['parentId'],
+                'parentUniversityId': self._university_info['parentUniversityId'],
                 'personRequestId': person_request_id,
                 'universityCode': self._university_info['code'],
                 'universityId': self._university_info['universityId'],
@@ -119,7 +119,7 @@ class EDBOWebApiMethods(object):
                 'menuItemCode': 'ENT_NZ1_Orders',
                 'pageNo': 0,
                 'pageSize': 100,
-                'parentUniversityId': self._university_info['parentId'],
+                'parentUniversityId': self._university_info['parentUniversityId'],
                 'personRequestId': person_request_id,
                 'universityCode': self._university_info['code'],
                 'universityId': self._university_info['universityId'],
@@ -141,7 +141,7 @@ class EDBOWebApiMethods(object):
                 'menuItemCode': 'ENT_NZ1_Orders',
                 'pageNo': 0,
                 'pageSize': 100,
-                'parentUniversityId': self._university_info['parentId'],
+                'parentUniversityId': self._university_info['parentUniversityId'],
                 'personRequestId': person_request_id,
                 'universityCode': self._university_info['code'],
                 'universityId': self._university_info['universityId'],
@@ -163,20 +163,21 @@ class EDBOWebApiMethods(object):
                 'menuItemCode': 'ENT_NZ1_Orders',
                 'pageNo': 0,
                 'pageSize': 100,
-                'parentUniversityId': self._university_info['parentId'],
+                'parentUniversityId': self._university_info['parentUniversityId'],
                 'personRequestId': person_request_id,
                 'universityCode': self._university_info['code'],
                 'universityId': self._university_info['universityId'],
             }
         )
 
-    def get_request_olympiads(self, person_id: int) -> list:
+    def get_request_olympiads(self, request_info: list) -> list:
         """Get olympiads added to request
-        :param person_id: ID of person
-        :type person_id: int
+        :param request_info: Request info
+        :type request_info: list
         :return: Request olympiads
         :rtype: list
         """
+        print(request_info['personId'])
         return self._connector.execute(
             'entrance/personRequest/olympiads/list',
             data={
@@ -185,10 +186,11 @@ class EDBOWebApiMethods(object):
                 'menuItemCode': 'ENT_NZ1_Orders',
                 'pageNo': 0,
                 'pageSize': 100,
-                'parentUniversityId': self._university_info['parentId'],
-                'personId': person_id,
+                'parentUniversityId': self._university_info['parentUniversityId'],
+                'personId': request_info['personId'],
                 'universityCode': self._university_info['code'],
                 'universityId': self._university_info['universityId'],
+                'universitySpecialitiesId': request_info['universitySpecialitiesId'],
             }
         )
 
@@ -205,7 +207,7 @@ class EDBOWebApiMethods(object):
             'requestSubjectsResults': self.get_request_subjects(person_request_id),
             'requestPrivileges': self.get_request_person_categories(person_request_id),
             'requestSpecialConditions': self.get_request_special_conditions(person_request_id),
-            'requestOlympiads': self.get_request_olympiads(request_info['personId']),
+            'requestOlympiads': self.get_request_olympiads(request_info),
         })
         return request_info
 
@@ -299,5 +301,30 @@ class EDBOWebApiMethods(object):
                 EDBOWebApiHelper.save_image(image.content, save_to)
 
             return image.content, image.headers['Content-Length']
+        else:
+            return None, None
+
+    def get_person_request_document(self, person_request_id: int, save_to: str = None) -> tuple:
+        """Get request document of admitter
+        :param person_request_id: ID of request
+        :param save_to: Path to save document (Default=None)
+        :type person_request_id: int
+        :type save_to: str
+        :return: Image data and image size
+        :rtype: tuple
+        """
+        document = self._connector.execute(
+            'entrance/personRequest/reports/personRequest',
+            data={
+                'personRequestId': person_request_id,
+            },
+            json_format=False
+        )
+
+        if document is not None:
+            if save_to is not None and len(document.content) > 0:
+                EDBOWebApiHelper.save_image(document.content, save_to)
+
+            return document.content, document.headers['Content-Length']
         else:
             return None, None
