@@ -216,38 +216,38 @@ class EDBOWebApiConnector(object):
                     u'Виконання методу {0:s} завершено невдало, повторна спроба...'.format(url),
                     color='red'
                 )
-
                 # Retry if unsuccessful
                 continue
 
-            # Execution done
-            break
+            # Save last execution time
+            self._execution_time = execution_end - execution_start
 
-        # Save last execution time
-        self._execution_time = execution_end - execution_start
+            # Save last status code
+            self._status = response.status_code
 
-        # Save last status code
-        self._status = response.status_code
-
-        EDBOWebApiHelper.echo(
-            u'Виконання методу {0:s} завершено з кодом {1:d} [{2:.3f}s]'.format(
-                url,
-                self._status,
-                self._execution_time
-            ),
-            color='green'
-        )
-
-        # Check if server return data
-        if self.status == 200:
-            while True:
-                # Return result of method execution
+            # Check if server return data
+            if self.status == 200:
                 try:
-                    return response.json() if json_format else response
+                    if json_format:
+                        response = response.json()
+
+                    EDBOWebApiHelper.echo(
+                        u'Виконання методу {0:s} завершено з кодом {1:d} [{2:.3f}s]'.format(
+                            url,
+                            self._status,
+                            self._execution_time
+                        ),
+                        color='green'
+                    )
+
+                    return response
                 except json.decoder.JSONDecodeError as exc:
                     EDBOWebApiHelper.echo(
-                        u'Виконання методу {0:s} завершено невдало: {1:s}'.format(url, str(exc)),
+                        u'Виконання методу {0:s} завершено невдало, повторна спроба...: {1:s}'.format(url, str(exc)),
                         color='red'
                     )
-                    # Retry
+                    # Retry if unsuccessful
                     continue
+
+            # Execution done
+            break
