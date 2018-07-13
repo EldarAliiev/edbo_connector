@@ -11,7 +11,7 @@ from .client import EDBOWebApiClient
 
 __name__ = 'python-edbo-connector'
 __author__ = 'Eldar Aliiev'
-__copyright__ = 'Copyright 2017, National Pirogov Memorial Medical University, Vinnytsya'
+__copyright__ = 'Copyright 2018, National Pirogov Memorial Medical University, Vinnytsya'
 __credits__ = ['Eldar Aliiev']
 __license__ = 'MIT'
 __version__ = '1.0.4-9'
