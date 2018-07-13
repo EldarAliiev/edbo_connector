@@ -200,15 +200,21 @@ class EDBOWebApiMethods(object):
         :return: Full request information
         :rtype: dict
         """
-        request_info = self.get_request_info(person_request_id)
-        request_info.update({
-            'requestCoefficients': self.get_request_coefficients(person_request_id),
-            'requestSubjectsResults': self.get_request_subjects(person_request_id),
-            'requestPrivileges': self.get_request_person_categories(person_request_id),
-            'requestSpecialConditions': self.get_request_special_conditions(person_request_id),
-            'requestOlympiads': self.get_request_olympiads(request_info),
-        })
-        return request_info
+        while True:
+            try:
+                request_info = self.get_request_info(person_request_id)
+                request_info.update({
+                    'requestCoefficients': self.get_request_coefficients(person_request_id),
+                    'requestSubjectsResults': self.get_request_subjects(person_request_id),
+                    'requestPrivileges': self.get_request_person_categories(person_request_id),
+                    'requestSpecialConditions': self.get_request_special_conditions(person_request_id),
+                    'requestOlympiads': self.get_request_olympiads(request_info),
+                })
+                return request_info
+            except:
+                pass
+            continue
+
 
     def get_full_requests(self, limit: int = MAX_REQUESTS_COUNT, originals_added_only: bool = False) -> list:
         """Get full info about all available requests
