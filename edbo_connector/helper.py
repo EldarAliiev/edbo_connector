@@ -11,6 +11,7 @@ from __future__ import print_function
 import os
 import sys
 import platform
+import datetime
 from .config import ECHO_ON
 
 
@@ -45,10 +46,10 @@ class EDBOWebApiHelper:
                     'blue': '0;34',
                     'white': '1;37'
                 }.get(color, '0')
-                print('\033[%sm%s\033[0m' % (color_code, message))
+                print('\033[%sm[%s] %s\033[0m' % (color_code, str(datetime.datetime.now()), message))
             else:
                 # Simple output
-                print(message)
+                print('[%s] %s' % (str(datetime.datetime.now()), message))
 
             # Need force exit from program
             if force_exit:
