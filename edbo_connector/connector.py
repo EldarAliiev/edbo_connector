@@ -7,6 +7,7 @@ Author: Eldar Aliiev
 Email: e.aliiev@vnmu.edu.ua
 """
 
+import json
 import time
 import requests
 from requests.adapters import HTTPAdapter
@@ -212,7 +213,7 @@ class EDBOWebApiConnector(object):
                 execution_end = time.time()
             except requests.exceptions.ConnectionError:
                 EDBOWebApiHelper.echo(
-                    u'Виконання методу завершено невдало, повторна спроба...',
+                    u'Виконання методу {0:s} завершено невдало, повторна спроба...'.format(url),
                     color='red'
                 )
 
@@ -229,7 +230,8 @@ class EDBOWebApiConnector(object):
         self._status = response.status_code
 
         EDBOWebApiHelper.echo(
-            u'Виконання методу завершено з кодом {0:d} [{1:.3f}s]'.format(
+            u'Виконання методу {0:s} завершено з кодом {1:d} [{2:.3f}s]'.format(
+                url,
                 self._status,
                 self._execution_time
             ),
@@ -238,5 +240,14 @@ class EDBOWebApiConnector(object):
 
         # Check if server return data
         if self.status == 200:
-            # Return result of method execution
-            return response.json() if json_format else response
+            while True:
+                # Return result of method execution
+                try:
+                    return response.json() if json_format else response
+                except json.decoder.JSONDecodeError as exc:
+                    EDBOWebApiHelper.echo(
+                        u'Виконання методу {0:s} завершено невдало: {1:s}'.format(url, str(exc)),
+                        color='red'
+                    )
+                    # Retry
+                    continue
