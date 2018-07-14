@@ -161,7 +161,8 @@ class EDBOWebApiConnector(object):
         """Logout from server"""
         EDBOWebApiHelper.echo(u'Вихід з системи...', color='red')
         # Logout from server
-        self.execute('auth/logout')
+        if self._is_logged_in:
+            self.execute('auth/logout')
 
         if self.status == 204:
             # Logged out
@@ -183,9 +184,6 @@ class EDBOWebApiConnector(object):
         # Check if session is not expired (15min)
         if url not in self.internal_methods and int(time.time() - self._session_start_time) > config.RELOGIN_AFTER:
             EDBOWebApiHelper.echo(u'Сесія добігає кінця, поновлення...')
-            # Logout from server
-            self.__logout()
-
             # Login again
             self.__login()
 
@@ -213,7 +211,10 @@ class EDBOWebApiConnector(object):
                 execution_end = time.time()
             except requests.exceptions.ConnectionError:
                 EDBOWebApiHelper.echo(
-                    u'Виконання методу {0:s} завершено невдало, повторна спроба...'.format(url),
+                    u'Виконання методу {0:s} завершено невдало, повторна спроба... [{1:d}]'.format(
+                        url,
+                        response.status_code
+                    ),
                     color='red'
                 )
                 # Retry if unsuccessful
@@ -225,14 +226,19 @@ class EDBOWebApiConnector(object):
             # Save last status code
             self._status = response.status_code
 
+            if self.status == 401:
+                # Login again and retry
+                self.__login()
+                continue
+
             # Check if server return data
-            if self.status in (200, 204):
+            if self.status in (200, 204, 500):
                 try:
                     if json_format:
                         response = response.json()
 
                     EDBOWebApiHelper.echo(
-                        u'Виконання методу {0:s} завершено з кодом {1:d} [{2:.3f}s]'.format(
+                        u'Виконання методу {0:s} завершено. [{1:d}][{2:.3f}s]'.format(
                             url,
                             self._status,
                             self._execution_time
@@ -243,7 +249,11 @@ class EDBOWebApiConnector(object):
                     return response
                 except json.decoder.JSONDecodeError as exc:
                     EDBOWebApiHelper.echo(
-                        u'Виконання методу {0:s} завершено невдало, повторна спроба...: {1:s}'.format(url, str(exc)),
+                        u'Виконання методу {0:s} завершено невдало, повторна спроба...[{1:d}]: {2:s}'.format(
+                            url,
+                            self._status,
+                            str(exc)
+                        ),
                         color='red'
                     )
                     # Retry if unsuccessful
@@ -253,7 +263,10 @@ class EDBOWebApiConnector(object):
                 break
             else:
                 EDBOWebApiHelper.echo(
-                    u'Виконання методу {0:s} завершено невдало, повторна спроба...: {1:s}'.format(url),
+                    u'Виконання методу {0:s} завершено невдало, повторна спроба... [{1:d}]'.format(
+                        url,
+                        self._status
+                    ),
                     color='red'
                 )
                 # Retry if unsuccessful
