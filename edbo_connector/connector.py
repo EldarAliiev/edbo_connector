@@ -193,7 +193,7 @@ class EDBOWebApiConnector(object):
         time.sleep(config.EXECUTION_TIMEOUT)
 
         # Try to execute method
-        while True:
+        for _ in range(0, config.CONNECTION_RETRIES):
             try:
                 EDBOWebApiHelper.echo(
                     u'Виконання методу {0:s}...'.format(url)
@@ -226,7 +226,7 @@ class EDBOWebApiConnector(object):
             self._status = response.status_code
 
             # Check if server return data
-            if self.status == 200:
+            if self.status in (200, 204):
                 try:
                     if json_format:
                         response = response.json()
@@ -249,5 +249,12 @@ class EDBOWebApiConnector(object):
                     # Retry if unsuccessful
                     continue
 
-            # Execution done
-            break
+                # Execution done
+                break
+            else:
+                EDBOWebApiHelper.echo(
+                    u'Виконання методу {0:s} завершено невдало, повторна спроба...: {1:s}'.format(url),
+                    color='red'
+                )
+                # Retry if unsuccessful
+                continue
