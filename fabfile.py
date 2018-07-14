@@ -6,4 +6,4 @@ from fabric.api import run
 
 def publish():
     """Publish package to PyPi repository"""
-    run('python setup.py bdist_wheel sdist upload --sign')
+    run('python3 setup.py bdist_wheel sdist upload --sign')
