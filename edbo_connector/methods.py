@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-from .config import MAX_REQUESTS_COUNT
+from .config import MAX_REQUESTS_COUNT, CONNECTION_RETRIES
 from .helper import EDBOWebApiHelper
 
 
@@ -200,7 +200,7 @@ class EDBOWebApiMethods(object):
         :return: Full request information
         :rtype: dict
         """
-        while True:
+        for _ in range(0, CONNECTION_RETRIES):
             try:
                 request_info = self.get_request_info(person_request_id)
                 request_info.update({
