@@ -162,7 +162,7 @@ class EDBOWebApiConnector(object):
         EDBOWebApiHelper.echo(u'Вихід з системи...', color='red')
         # Logout from server
         if self._is_logged_in:
-            self.execute('auth/logout')
+            self.execute('auth/logout', json_format=False)
 
         if self.status == 204:
             # Logged out
